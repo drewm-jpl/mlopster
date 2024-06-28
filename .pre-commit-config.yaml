@@ -44,7 +44,7 @@ repos:
       - id: ruff
 
   - repo: https://github.com/PyCQA/bandit
-    rev: "1.7.9" # you must change this to newest version
+    rev: "1.7.9"
     hooks:
       - id: bandit
         args:
