@@ -3,7 +3,8 @@
 
 <div align="center">
 
-![mlopster](./assets/mlopster.png)
+<img src="./assets/mlopster.png" width="250">
+
 <!-- ☝️ Replace with your logo (if applicable) via ![](https://uri-to-your-logo-image) ☝️ -->
 <!-- ☝️ If you see logo rendering errors, make sure you're not using indentation, or try an HTML IMG tag -->
 
