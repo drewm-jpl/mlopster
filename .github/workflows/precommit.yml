@@ -45,9 +45,11 @@ jobs:
         sudo apt-get install trivy
 
     - name: Static Analysis with Pre-commit
+      id: pre_commit_checks
       uses: pre-commit/action@v3.0.1
       with:
         extra_args: --config .pre-commit-config.yaml --all-files
+      continue-on-error: true
 
     - name: Commit and push changes
       if: always()
@@ -56,3 +58,7 @@ jobs:
         token: ${{ secrets.GH_TOKEN }}
         commit_message: "chore(pre-commit): apply pre-commit fixes"
         branch: ${{ github.head_ref }}
+
+    - name: Check pre-commit failure
+      if: steps.pre_commit_checks.outcome != 'success'
+      run: exit 1
