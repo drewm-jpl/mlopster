@@ -13,7 +13,7 @@ updates:
 
   - package-ecosystem: 'docker'
     directories:
-      - '/'
+      - '/resource_provisioning/airflow/docker'
     schedule:
       interval: 'daily'
       time: '09:00'
