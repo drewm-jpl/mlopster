@@ -6,6 +6,6 @@ updates:
       interval: 'daily'
       time: '09:00'
       timezone: 'America/Los_Angeles'
-    target-branch: 'main'
+    target-branch: 'develop'
     labels:
       - 'dependencies'
