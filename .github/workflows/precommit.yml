@@ -12,7 +12,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GH_TOKEN }}  # Use PAT for authentication
         ref: ${{ github.head_ref }}  # Ensure the correct branch is checked out
 
     - uses: actions/setup-python@v5
@@ -51,7 +50,9 @@ jobs:
         extra_args: --config .pre-commit-config.yaml --all-files
 
     - name: Commit and push changes
+      if: always()
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
+        token: ${{ secrets.GH_TOKEN }}
         commit_message: "chore(pre-commit): apply pre-commit fixes"
         branch: ${{ github.head_ref }}
