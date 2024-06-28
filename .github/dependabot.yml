@@ -1,7 +1,41 @@
 version: 2
 updates:
   - package-ecosystem: 'pip'
-    directory: '/' # location of package manifests
+    directories:
+      - '/'
+    schedule:
+      interval: 'daily'
+      time: '09:00'
+      timezone: 'America/Los_Angeles'
+    target-branch: 'develop'
+    labels:
+      - 'dependencies'
+
+  - package-ecosystem: 'docker'
+    directories:
+      - '/'
+    schedule:
+      interval: 'daily'
+      time: '09:00'
+      timezone: 'America/Los_Angeles'
+    target-branch: 'develop'
+    labels:
+      - 'dependencies'
+
+  - package-ecosystem: 'terraform'
+    directories:
+      - '/'
+    schedule:
+      interval: 'daily'
+      time: '09:00'
+      timezone: 'America/Los_Angeles'
+    target-branch: 'develop'
+    labels:
+      - 'dependencies'
+
+  - package-ecosystem: 'github-actions'
+    directories:
+      - '/.github/workflows'
     schedule:
       interval: 'daily'
       time: '09:00'
