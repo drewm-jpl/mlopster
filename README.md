@@ -7,12 +7,12 @@
 <!-- ☝️ Replace with your logo (if applicable) via ![](https://uri-to-your-logo-image) ☝️ -->
 <!-- ☝️ If you see logo rendering errors, make sure you're not using indentation, or try an HTML IMG tag -->
 
-<h1 align="center">[INSERT YOUR REPO / PROJ NAME HERE]</h1>
+<h1 align="center">µlopster</h1>
 <!-- ☝️ Replace with your repo name ☝️ -->
 
 </div>
 
-<pre align="center">[INSERT A SINGLE SENTENCE DESCRIBING THE PURPOSE OF YOUR REPO / PROJ]</pre>
+<pre align="center">A multi-mission machine learning operations framework</pre>
 <!-- ☝️ Replace with a single sentence describing the purpose of your repo / proj ☝️ -->
 
 <!-- Header block for project -->
@@ -34,7 +34,7 @@
 ## Features
 
 * [INSERT LIST OF FEATURES IMPORTANT TO YOUR USERS HERE]
-  
+
 <!-- ☝️ Replace with a bullet-point list of your features ☝️ -->
 
 ## Contents
@@ -53,13 +53,13 @@ This guide provides a quick way to get started with our project. Please see our 
 ### Requirements
 
 * [INSERT LIST OF REQUIREMENTS HERE]
-  
+
 <!-- ☝️ Replace with a numbered list of your requirements, including hardware if applicable ☝️ -->
 
 ### Setup Instructions
 
 1. [INSERT STEP-BY-STEP SETUP INSTRUCTIONS HERE, WITH OPTIONAL SCREENSHOTS]
-   
+
 <!-- ☝️ Replace with a numbered list of how to set up your software prior to running ☝️ -->
 
 ### Run Instructions
