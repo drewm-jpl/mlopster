@@ -1,3 +1,10 @@
+# [1.0.0-develop.2](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.1...v1.0.0-develop.2) (2024-06-28)
+
+
+### Features
+
+* Add pyproject.toml ([c7dda5b](https://github.com/drewm-jpl/mlopster/commit/c7dda5bcc151394a5cefa4a94bc4b987b731dac4))
+
 # 1.0.0-develop.1 (2024-06-28)
 
 
