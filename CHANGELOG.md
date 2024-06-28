@@ -1,3 +1,17 @@
+# [1.0.0-develop.3](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.2...v1.0.0-develop.3) (2024-06-28)
+
+
+### Features
+
+* Add custom Airflow Dockerfile ([47daac6](https://github.com/drewm-jpl/mlopster/commit/47daac69a801fb363c2e482b57ddb5da1af57fac))
+
+# [1.0.0-develop.2](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.1...v1.0.0-develop.2) (2024-06-28)
+
+
+### Features
+
+* Add pyproject.toml ([c7dda5b](https://github.com/drewm-jpl/mlopster/commit/c7dda5bcc151394a5cefa4a94bc4b987b731dac4))
+
 # 1.0.0-develop.1 (2024-06-28)
 
 
