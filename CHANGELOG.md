@@ -1,3 +1,11 @@
+# [1.0.0-develop.4](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.3...v1.0.0-develop.4) (2024-07-01)
+
+
+### Features
+
+* Add dockerfile for mlflow image ([aa9c2bf](https://github.com/drewm-jpl/mlopster/commit/aa9c2bfccd46f5a803ccce5d3cc4ec61dc3e30c4))
+* Add dockerfile for mlflow image ([605eaef](https://github.com/drewm-jpl/mlopster/commit/605eaef7e4a48b0ae95b3674faca6db4f9768f2c))
+
 # [1.0.0-develop.3](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.2...v1.0.0-develop.3) (2024-06-28)
 
 
