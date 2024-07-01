@@ -1,4 +1,4 @@
-# [INSERT PROJECT NAME] Project Governance
+# mlopster Project Governance
 
 This governance model aims to create an open source community that encourages transparency, contributions, and collaboration, but maintains sound technical and quality standards. Our goal is to build a community comprised of members across the [INSERT PROJECT DOMAIN] community and beyond, including from private organizations, universities, government organizations, and international organizations.
 
@@ -18,7 +18,7 @@ The project follows a fairly liberal contribution model where people and/or orga
 
 ### User
 
-Anyone who has downloaded, deployed, or operated [INSERT PROJECT NAME] to meet a specific objective. This project was primarily designed for [INSERT DESCRIPTION OF PROJECT PURPOSE], but let us know if you've found other uses for it.
+Anyone who has downloaded, deployed, or operated mlopster to meet a specific objective. This project was primarily designed for [INSERT DESCRIPTION OF PROJECT PURPOSE], but let us know if you've found other uses for it.
 
 ### Contributor
 
@@ -52,15 +52,16 @@ A subset of the collaborators forms the Technical Steering Committee (TSC). The 
 - Maintaining the list of collaborators
 
 #### TSC Committee Members
-- [INSERT MEMBER NAME] ([username1]([INSERT LINK TO USERNAME]), [INSERT ORG ASSOCIATION]
-- [INSERT MEMBER NAME] ([username1]([INSERT LINK TO USERNAME]), [INSERT ORG ASSOCIATION]
 
+- [INSERT MEMBER NAME] ([username1]([INSERT LINK TO USERNAME]), [INSERT ORG ASSOCIATION]
+- [INSERT MEMBER NAME] ([username1]([INSERT LINK TO USERNAME]), [INSERT ORG ASSOCIATION]
 
 <details>
 
 <summary>Emeriti</summary>
 
 #### TSC Emeriti
+
 - [INSERT MEMBER NAME] ([username1]([INSERT LINK TO USERNAME]), [INSERT ORG ASSOCIATION]
 
 </details>
@@ -71,10 +72,9 @@ The TSC is primarily responsible for the following project repositories:
 
 - [INSERT LINK TO PROJECT REPOSITORIES]
 
-However, the TSC also has the responsibility to interface with and monitor third-party dependencies of the project for key changes impacting [INSERT PROJECT NAME]. These third-party dependencies include:
+However, the TSC also has the responsibility to interface with and monitor third-party dependencies of the project for key changes impacting mlopster. These third-party dependencies include:
 
 - [INSERT LINK TO DEPENDENT PROJECT REPOSITORIES]
-
 
 #### Decision Making Process
 
@@ -95,6 +95,7 @@ The Project Management Committee (PMC) is made up of sponsor organization repres
 - Addressing any legal considerations
 
 #### PMC Committee Members
+
 - [INSERT MEMBER NAME] ([username1]([INSERT LINK TO USERNAME]), [INSERT ORG ASSOCIATION]
 - [INSERT MEMBER NAME] ([username1]([INSERT LINK TO USERNAME]), [INSERT ORG ASSOCIATION]
 
@@ -103,6 +104,7 @@ The Project Management Committee (PMC) is made up of sponsor organization repres
 <summary>Emeriti</summary>
 
 #### PMC Emeriti
+
 - [INSERT MEMBER NAME] ([username1]([INSERT LINK TO USERNAME]), [INSERT ORG ASSOCIATION]
 
 </details>
@@ -123,6 +125,6 @@ Additional meetings may be held if consensus is not met or to discuss significan
 
 Overall manager of the project with final authority over all key decisions when consensus cannot be reached within the TSC or PSC. The product manager is often chosen at the onset of project initiation and can be reassigned by the PMC (with institutional approval, if applicable).
 
-# Acknowledgements
+## Acknowledgements
 
 Much of this governance model was adapted from the other notable open source projects including [node.js](https://github.com/nodejs/node/blob/main/GOVERNANCE.md), [OpenSSL](https://www.openssl.org/policies/omc-bylaws.html), [PostgresQL](https://www.postgresql.org/developer/), and [OpenMCT](https://github.com/nasa/openmct/blob/master/CONTRIBUTING.md). We would like to thank those projects for setting the foundation upon which this model was built.
