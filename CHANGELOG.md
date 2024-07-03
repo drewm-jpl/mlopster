@@ -1,3 +1,10 @@
+# [1.0.0-develop.11](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.10...v1.0.0-develop.11) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** Integrated release and image build process ([c6cf17e](https://github.com/drewm-jpl/mlopster/commit/c6cf17e26d87604343454668f440e9d8a83111b3))
+
 # [1.0.0-develop.10](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.9...v1.0.0-develop.10) (2024-07-03)
 
 
