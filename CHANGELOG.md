@@ -1,3 +1,52 @@
+# [1.0.0-develop.12](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.11...v1.0.0-develop.12) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** correct syntax in build and push images action ([499d616](https://github.com/drewm-jpl/mlopster/commit/499d61643d08a2aaf1d01d3247228d4bd5a98d28))
+
+# [1.0.0-develop.11](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.10...v1.0.0-develop.11) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** Integrated release and image build process ([c6cf17e](https://github.com/drewm-jpl/mlopster/commit/c6cf17e26d87604343454668f440e9d8a83111b3))
+
+# [1.0.0-develop.10](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.9...v1.0.0-develop.10) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** correct syntax in build and push images action ([9590d84](https://github.com/drewm-jpl/mlopster/commit/9590d84f641f5de7cf8099c07201277ba843a87d))
+
+# [1.0.0-develop.9](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.8...v1.0.0-develop.9) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** Integrated release and image build process ([ceb386a](https://github.com/drewm-jpl/mlopster/commit/ceb386a4c26f3211efe8dd24ca3906b184d37b95))
+
+# [1.0.0-develop.8](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.7...v1.0.0-develop.8) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** correct syntax in build and push images action ([34b9f2d](https://github.com/drewm-jpl/mlopster/commit/34b9f2d33e102eb34eb5baf0e7f0bbc3d9f8afd6))
+
+# [1.0.0-develop.7](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.6...v1.0.0-develop.7) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** correct syntax in build and push images action ([540ff66](https://github.com/drewm-jpl/mlopster/commit/540ff662f516f3c721338e9bbe128af09c216252))
+
+# [1.0.0-develop.6](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.5...v1.0.0-develop.6) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** correct action name in GitHub workflows ([1b0baec](https://github.com/drewm-jpl/mlopster/commit/1b0baec57be0342b8ff3e50ca1fd7d66a13ba16d))
+
 # [1.0.0-develop.5](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.4...v1.0.0-develop.5) (2024-07-03)
 
 
