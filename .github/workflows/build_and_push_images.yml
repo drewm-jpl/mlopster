@@ -14,7 +14,11 @@ on:
 
 jobs:
   push_to_ghcr:
-    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    if: |
+        github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.outputs.new_release_published == 'true' ||
+        github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,11 +46,10 @@ jobs:
       - name: Set tag based on event
         id: set_tag
         run: |
-            if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
-                echo "TAG=${{ github.event.workflow_run.outputs.new_release_version }}" >> $GITHUB_ENV
-            else
-                echo "TAG=${{ github.event.inputs.custom_tag }}" >> $GITHUB_ENV
-            fi
+          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+            echo "TAG=${{ github.event.workflow_run.outputs.new_release_version }}" >> $GITHUB_ENV
+          else
+            echo "TAG=${{ github.event.inputs.custom_tag }}" >> $GITHUB_ENV
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
