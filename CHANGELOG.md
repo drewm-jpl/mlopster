@@ -1,3 +1,10 @@
+# [1.0.0-develop.5](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.4...v1.0.0-develop.5) (2024-07-03)
+
+
+### Features
+
+* **ci:** add workflow to build and push Docker images to GHCR ([251fdd3](https://github.com/drewm-jpl/mlopster/commit/251fdd3ef7a7b655039ee60cdfd2c6ff1b1a306e))
+
 # [1.0.0-develop.4](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.3...v1.0.0-develop.4) (2024-07-01)
 
 
