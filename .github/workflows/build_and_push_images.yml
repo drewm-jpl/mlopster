@@ -1,4 +1,4 @@
-name: Build and Publish Docker Images
+name: Build and Push Docker Images
 
 on:
   workflow_run:
@@ -39,16 +39,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set tag based on event
+        id: set_tag
+        run: |
+            if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+                echo "TAG=${{ github.event.workflow_run.outputs.new_release_version }}" >> $GITHUB_ENV
+            else
+                echo "TAG=${{ github.event.inputs.custom_tag }}" >> $GITHUB_ENV
+            fi
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: |
-            ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${
-              github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
-              ? github.event.workflow_run.outputs.new_release_version
-              : github.event.inputs.custom_tag
-            }
+          images: ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${{ env.TAG }}
 
       - name: Build and push Docker image
         id: push_image
@@ -57,12 +61,7 @@ jobs:
           context: ./${{ matrix.image.directory }}
           file: ./${{ matrix.image.directory }}/Dockerfile
           push: true
-          tags: |
-            ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${
-              github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
-              ? github.event.workflow_run.outputs.new_release_version
-              : github.event.inputs.custom_tag
-            }
+          tags: ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${{ env.TAG }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation
