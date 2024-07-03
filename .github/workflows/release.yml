@@ -1,4 +1,5 @@
 name: Release
+
 on:
   push:
     branches:
@@ -8,12 +9,21 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      new_release_version: ${{ steps.get_new_release_version.outputs.new_release_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+
       - name: Semantic Release
+        id: semantic
         uses: cycjimmy/semantic-release-action@v4
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Get new release version
+        if: steps.semantic.outputs.new_release_published == 'true'
+        id: get_new_release_version
+        run: echo "new_release_version=${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_OUTPUT
