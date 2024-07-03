@@ -1,3 +1,10 @@
+# [1.0.0-develop.6](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.5...v1.0.0-develop.6) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** correct action name in GitHub workflows ([1b0baec](https://github.com/drewm-jpl/mlopster/commit/1b0baec57be0342b8ff3e50ca1fd7d66a13ba16d))
+
 # [1.0.0-develop.5](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.4...v1.0.0-develop.5) (2024-07-03)
 
 
