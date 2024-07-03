@@ -1,3 +1,10 @@
+# [1.0.0-develop.10](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.9...v1.0.0-develop.10) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** correct syntax in build and push images action ([9590d84](https://github.com/drewm-jpl/mlopster/commit/9590d84f641f5de7cf8099c07201277ba843a87d))
+
 # [1.0.0-develop.9](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.8...v1.0.0-develop.9) (2024-07-03)
 
 
