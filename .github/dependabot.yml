@@ -3,6 +3,8 @@ updates:
   - package-ecosystem: 'pip'
     directories:
       - '/'
+      - '/airflow/docker'
+      - '/mlflow/docker'
     schedule:
       interval: 'daily'
       time: '09:00'
@@ -13,8 +15,8 @@ updates:
 
   - package-ecosystem: 'docker'
     directories:
-      - '/resource_provisioning/airflow/docker'
-      - '/resource_provisioning/mlflow/docker'
+      - '/airflow/docker'
+      - '/mlflow/docker'
     schedule:
       interval: 'daily'
       time: '09:00'
@@ -25,7 +27,7 @@ updates:
 
   - package-ecosystem: 'terraform'
     directories:
-      - '/'
+      - '/terraform'
     schedule:
       interval: 'daily'
       time: '09:00'
