@@ -44,7 +44,11 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${{ github.event_name == 'workflow_run' && github.event.workflow_run.outputs.new_release_version || github.event.inputs.custom_tag }}
+            ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${
+              github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
+              ? github.event.workflow_run.outputs.new_release_version
+              : github.event.inputs.custom_tag
+            }
 
       - name: Build and push Docker image
         id: push_image
@@ -54,7 +58,11 @@ jobs:
           file: ./${{ matrix.image.directory }}/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${{ github.event_name == 'workflow_run' && github.event.workflow_run.outputs.new_release_version || github.event.inputs.custom_tag }}
+            ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${
+              github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
+              ? github.event.workflow_run.outputs.new_release_version
+              : github.event.inputs.custom_tag
+            }
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation
