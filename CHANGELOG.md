@@ -1,3 +1,10 @@
+# [1.0.0-develop.9](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.8...v1.0.0-develop.9) (2024-07-03)
+
+
+### Bug Fixes
+
+* **ci:** Integrated release and image build process ([ceb386a](https://github.com/drewm-jpl/mlopster/commit/ceb386a4c26f3211efe8dd24ca3906b184d37b95))
+
 # [1.0.0-develop.8](https://github.com/drewm-jpl/mlopster/compare/v1.0.0-develop.7...v1.0.0-develop.8) (2024-07-03)
 
 
