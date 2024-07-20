@@ -1,12 +1,13 @@
 from datetime import timedelta
 
-from airflow.providers.amazon.aws.operators.sagemaker import (
-    SageMakerEndpointConfigOperator,
-    SageMakerEndpointOperator,
-    SageMakerModelOperator,
-)
+import boto3
+import sagemaker
+from airflow.operators.python import PythonOperator
+
+# from airflow.providers.amazon.aws.operators.sagemaker import SageMakerModelOperator
 from airflow.providers.amazon.aws.sensors.sagemaker import SageMakerEndpointSensor
 from airflow.utils.dates import days_ago
+from sagemaker.huggingface import HuggingFaceModel
 
 from airflow import DAG
 
@@ -22,80 +23,63 @@ default_args = {
 }
 
 dag = DAG(
-    "sagemaker_sklearn_model_endpoint",
+    "huggingface_sagemaker_model_endpoint",
     default_args=default_args,
-    description="Deploy an sklearn model to SageMaker",
+    description="Deploy a Hugging Face model to SageMaker",
     schedule_interval=None,  # Manually triggerable
     start_date=days_ago(1),
-    tags=["sagemaker", "sklearn"],
+    tags=["sagemaker", "huggingface"],
 )
 
-# Define the region
-region_name = "us-east-1"
 
-# Define SageMaker model
-model_name = "sklearn-model"
-s3_model_path = (
-    "s3://srl-dev-idps-drewm-mlflow-artifacts-1/1/55dc066efd4447b28baca4d60494b625/artifacts/sklearn-model/"
-)
-image_uri = "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3"
+# Function to get the execution role
+def get_execution_role():
+    try:
+        role = sagemaker.get_execution_role()
+    except ValueError:
+        iam = boto3.client("iam")
+        role = iam.get_role(RoleName="sagemaker_execution_role")["Role"]["Arn"]
+    return role
 
-sagemaker_model = {
-    "ModelName": model_name,
-    "PrimaryContainer": {
-        "Image": image_uri,
-        "ModelDataUrl": s3_model_path,
-    },
-    "ExecutionRoleArn": "arn:aws:iam::your-account-id:role/service-role/AmazonSageMaker-ExecutionRole-20200101T000001",
-}
 
-create_model_task = SageMakerModelOperator(
-    task_id="create_sagemaker_model", config=sagemaker_model, dag=dag, aws_conn_id=AWS_CONN_ID
-)
+# Function to deploy the Hugging Face model
+def deploy_huggingface_model():
+    role = get_execution_role()
 
-# Define SageMaker endpoint configuration
-endpoint_config_name = "sklearn-endpoint-config"
-sagemaker_endpoint_config = {
-    "EndpointConfigName": endpoint_config_name,
-    "ProductionVariants": [
-        {
-            "VariantName": "AllTraffic",
-            "ModelName": model_name,
-            "InitialInstanceCount": 1,
-            "InstanceType": "ml.m4.xlarge",
-            "InitialVariantWeight": 1,
-        }
-    ],
-}
+    # Hub Model configuration. https://huggingface.co/models
+    hub = {"HF_MODEL_ID": "drewmee/sklearn-model", "HF_TASK": "undefined"}
 
-create_endpoint_config_task = SageMakerEndpointConfigOperator(
-    task_id="create_sagemaker_endpoint_config",
-    config=sagemaker_endpoint_config,
+    # Create Hugging Face Model Class
+    huggingface_model = HuggingFaceModel(
+        transformers_version="4.37.0",
+        pytorch_version="2.1.0",
+        py_version="py310",
+        env=hub,
+        role=role,
+    )
+
+    # Deploy model to SageMaker Inference
+    predictor = huggingface_model.deploy(
+        initial_instance_count=1, instance_type="ml.m5.xlarge"  # number of instances  # ec2 instance type
+    )
+
+    return predictor.endpoint_name
+
+
+# Task to deploy the Hugging Face model
+deploy_model_task = PythonOperator(
+    task_id="deploy_huggingface_model",
+    python_callable=deploy_huggingface_model,
     dag=dag,
-    aws_conn_id=AWS_CONN_ID,
-)
-
-# Create SageMaker endpoint
-endpoint_name = "sklearn-endpoint"
-sagemaker_endpoint = {
-    "EndpointName": endpoint_name,
-    "EndpointConfigName": endpoint_config_name,
-}
-
-create_endpoint_task = SageMakerEndpointOperator(
-    task_id="create_sagemaker_endpoint",
-    config=sagemaker_endpoint,
-    wait_for_completion=False,  # We'll use a sensor to wait
-    dag=dag,
-    aws_conn_id=AWS_CONN_ID,
 )
 
 # Wait for endpoint to be in service
 wait_for_endpoint_task = SageMakerEndpointSensor(
     task_id="wait_for_endpoint",
-    endpoint_name=endpoint_name,
+    endpoint_name="{{ task_instance.xcom_pull(task_ids='deploy_huggingface_model') }}",
+    aws_conn_id=AWS_CONN_ID,
     dag=dag,
 )
 
 # Task dependencies
-create_model_task >> create_endpoint_config_task >> create_endpoint_task >> wait_for_endpoint_task
+deploy_model_task >> wait_for_endpoint_task
