@@ -1,7 +1,7 @@
 from datetime import timedelta
 
-# import boto3
-# import sagemaker
+import boto3
+import sagemaker
 from airflow.operators.python import PythonOperator
 
 # from airflow.providers.amazon.aws.operators.sagemaker import SageMakerModelOperator
@@ -55,12 +55,22 @@ def deploy_huggingface_model():
     # Hub Model configuration. https://huggingface.co/models
     hub = {"HF_MODEL_ID": "drewmee/sklearn-model", "HF_TASK": "undefined"}
 
+    sagemaker_session = sagemaker.Session(
+        boto3.Session(
+            endpoint_url="http://localhost.localstack.cloud:4566",
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
+        )
+    )
+
     # Create Hugging Face Model Class
     huggingface_model = HuggingFaceModel(
         transformers_version="4.37.0",
         pytorch_version="2.1.0",
         py_version="py310",
         env=hub,
+        sagemaker_session=sagemaker_session,
         # role=role,
     )
 
