@@ -73,7 +73,6 @@ create_endpoint_config_task = SageMakerEndpointConfigOperator(
     task_id="create_sagemaker_endpoint_config",
     config=sagemaker_endpoint_config,
     aws_conn_id="aws_default",
-    region_name=region_name,  # Explicitly set the region
     dag=dag,
 )
 
