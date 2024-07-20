@@ -56,12 +56,18 @@ def deploy_huggingface_model():
     hub = {"HF_MODEL_ID": "drewmee/sklearn-model", "HF_TASK": "undefined"}
 
     sagemaker_session = sagemaker.Session(
-        boto3.Session(
+        boto_session=boto3.Session(
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
+        ),
+        sagemaker_client=boto3.client(
+            "sagemaker",
             endpoint_url="http://localhost.localstack.cloud:4566",
             region_name="us-east-1",
             aws_access_key_id="mock_access_key",
             aws_secret_access_key="mock_secret_key",
-        )
+        ),
     )
 
     # Create Hugging Face Model Class
