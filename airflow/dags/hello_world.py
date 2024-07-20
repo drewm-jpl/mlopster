@@ -10,7 +10,7 @@ default_args = {
     "start_date": datetime(2021, 1, 1),
 }
 
-dag = DAG("hello_world", default_args=default_args, schedule_interval=None)
+dag = DAG("hello_world", default_args=default_args, is_paused_upon_creation=False, schedule_interval=None)
 
 t1 = BashOperator(
     task_id="say_hello",
