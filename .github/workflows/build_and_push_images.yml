@@ -29,7 +29,7 @@ jobs:
       attestations: write
       id-token: write
     steps:
-      - name: Check out the repo
+      - name: Check out the repo # TODO need to checkout the correct tag for the release or branch that was used in dispatch
         uses: actions/checkout@v4
 
       - name: Log in to the Container registry
