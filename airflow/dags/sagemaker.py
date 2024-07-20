@@ -68,6 +68,20 @@ def deploy_huggingface_model():
             aws_access_key_id="mock_access_key",
             aws_secret_access_key="mock_secret_key",
         ),
+        sagemaker_featurestore_runtime_client=boto3.client(
+            "sagemaker-featurestore-runtime",
+            endpoint_url="http://localhost.localstack.cloud:4566",
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
+        ),
+        sagemaker_metrics_client=boto3.client(
+            "sagemaker-metrics",
+            endpoint_url="http://localhost.localstack.cloud:4566",
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
+        ),
     )
 
     # Create Hugging Face Model Class
