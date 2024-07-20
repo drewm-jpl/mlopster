@@ -48,7 +48,6 @@ create_model_task = SageMakerModelOperator(
     task_id="create_sagemaker_model",
     config=sagemaker_model,
     aws_conn_id="aws_default",
-    wait_for_completion=True,
     dag=dag,
 )
 
@@ -71,7 +70,6 @@ create_endpoint_config_task = SageMakerEndpointConfigOperator(
     task_id="create_sagemaker_endpoint_config",
     config=sagemaker_endpoint_config,
     aws_conn_id="aws_default",
-    wait_for_completion=True,
     dag=dag,
 )
 
