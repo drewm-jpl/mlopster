@@ -87,7 +87,6 @@ create_endpoint_task = SageMakerEndpointOperator(
     task_id="create_sagemaker_endpoint",
     config=sagemaker_endpoint,
     aws_conn_id="aws_default",
-    region_name=region_name,  # Explicitly set the region
     wait_for_completion=False,  # We'll use a sensor to wait
     dag=dag,
 )
@@ -97,7 +96,6 @@ wait_for_endpoint_task = SageMakerEndpointSensor(
     task_id="wait_for_endpoint",
     endpoint_name=endpoint_name,
     aws_conn_id="aws_default",
-    region_name=region_name,  # Explicitly set the region
     dag=dag,
 )
 
