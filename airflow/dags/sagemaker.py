@@ -38,7 +38,11 @@ def get_execution_role():
         role = sagemaker.get_execution_role()
     except ValueError:
         iam = boto3.client(
-            "iam", endpoint_url="http://localhost.localstack.cloud:4566", region_name="us-east-1"
+            "iam",
+            endpoint_url="http://localhost.localstack.cloud:4566",
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
         )
         role = iam.get_role(RoleName="sagemaker_execution_role")["Role"]["Arn"]
     return role

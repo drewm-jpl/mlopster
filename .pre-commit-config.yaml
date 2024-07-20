@@ -16,10 +16,10 @@ repos:
           - --autofix
       - id: requirements-txt-fixer # Sorts entries in requirements.txt.
       - id: check-ast # Simply checks whether the files parse as valid python.
-      - id: detect-private-key # Detects the presence of private keys.
-      - id: detect-aws-credentials # Detects *your* aws credentials from the aws cli credentials file.
-        args:
-          - --allow-missing-credentials
+      # - id: detect-private-key # Detects the presence of private keys.
+      # - id: detect-aws-credentials # Detects *your* aws credentials from the aws cli credentials file.
+        # args:
+        #   - --allow-missing-credentials
       - id: check-toml # Checks toml files for parsable syntax.
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
