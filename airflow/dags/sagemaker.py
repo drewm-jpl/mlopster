@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 import boto3
 import sagemaker
 from airflow.operators.python import PythonOperator
@@ -11,14 +9,7 @@ from sagemaker.huggingface import HuggingFaceModel
 
 from airflow import DAG
 
-default_args = {
-    "owner": "airflow",
-    "depends_on_past": False,
-    "email_on_failure": False,
-    "email_on_retry": False,
-    "retries": 1,
-    "retry_delay": timedelta(minutes=5),
-}
+default_args = {"owner": "airflow"}
 
 dag = DAG(
     "huggingface_sagemaker_model_endpoint",
