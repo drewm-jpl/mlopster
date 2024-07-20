@@ -33,15 +33,16 @@ def get_execution_role():
 
 # Function to deploy the Hugging Face model
 def deploy_huggingface_model():
+    print("a")
     role = get_execution_role()
-
+    print("b")
     # Hub Model configuration. https://huggingface.co/models
     hub = {"HF_MODEL_ID": "drewmee/sklearn-model", "HF_TASK": "undefined"}
-
+    print("c")
     sagemaker_session = sagemaker.Session(
         default_bucket="srl-dev-idps-drewm-sagemaker-1",
     )
-
+    print("d")
     # Create Hugging Face Model Class
     huggingface_model = HuggingFaceModel(
         transformers_version="4.37.0",
@@ -51,12 +52,12 @@ def deploy_huggingface_model():
         sagemaker_session=sagemaker_session,
         role=role,
     )
-
+    print("e")
     # Deploy model to SageMaker Inference
     predictor = huggingface_model.deploy(
         initial_instance_count=1, instance_type="ml.m5.xlarge"  # number of instances  # ec2 instance type
     )
-
+    print("f")
     return predictor.endpoint_name
 
 
