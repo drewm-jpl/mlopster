@@ -50,7 +50,6 @@ sagemaker_model = {
 create_model_task = SageMakerModelOperator(
     task_id="create_sagemaker_model",
     config=sagemaker_model,
-    aws_conn_id="aws_default",
     dag=dag,
 )
 
@@ -72,7 +71,6 @@ sagemaker_endpoint_config = {
 create_endpoint_config_task = SageMakerEndpointConfigOperator(
     task_id="create_sagemaker_endpoint_config",
     config=sagemaker_endpoint_config,
-    aws_conn_id="aws_default",
     dag=dag,
 )
 
@@ -86,7 +84,6 @@ sagemaker_endpoint = {
 create_endpoint_task = SageMakerEndpointOperator(
     task_id="create_sagemaker_endpoint",
     config=sagemaker_endpoint,
-    aws_conn_id="aws_default",
     wait_for_completion=False,  # We'll use a sensor to wait
     dag=dag,
 )
@@ -95,7 +92,6 @@ create_endpoint_task = SageMakerEndpointOperator(
 wait_for_endpoint_task = SageMakerEndpointSensor(
     task_id="wait_for_endpoint",
     endpoint_name=endpoint_name,
-    aws_conn_id="aws_default",
     dag=dag,
 )
 
