@@ -51,7 +51,6 @@ create_model_task = SageMakerModelOperator(
     task_id="create_sagemaker_model",
     config=sagemaker_model,
     aws_conn_id="aws_default",
-    region_name=region_name,  # Explicitly set the region
     dag=dag,
 )
 
