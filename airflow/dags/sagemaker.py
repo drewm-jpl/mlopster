@@ -11,7 +11,7 @@ from sagemaker.huggingface import HuggingFaceModel
 
 from airflow import DAG
 
-AWS_CONN_ID = "aws"
+AWS_CONN_ID = "aws"  # test
 
 default_args = {
     "owner": "airflow",
@@ -37,7 +37,7 @@ def get_execution_role():
     try:
         role = sagemaker.get_execution_role()
     except ValueError:
-        iam = boto3.client("iam")
+        iam = boto3.client("iam", endpoint_url="http://localhost.localstack.cloud:4566")
         role = iam.get_role(RoleName="sagemaker_execution_role")["Role"]["Arn"]
     return role
 
