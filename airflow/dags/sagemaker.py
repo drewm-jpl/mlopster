@@ -11,8 +11,6 @@ from sagemaker.huggingface import HuggingFaceModel
 
 from airflow import DAG
 
-AWS_CONN_ID = "aws"  # test
-
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
@@ -37,13 +35,7 @@ def get_execution_role():
     try:
         role = sagemaker.get_execution_role()
     except ValueError:
-        iam = boto3.client(
-            "iam",
-            endpoint_url="http://localhost.localstack.cloud:4566",
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        )
+        iam = boto3.client("iam")
         role = iam.get_role(RoleName="sagemaker_execution_role")["Role"]["Arn"]
     return role
 
@@ -56,32 +48,6 @@ def deploy_huggingface_model():
     hub = {"HF_MODEL_ID": "drewmee/sklearn-model", "HF_TASK": "undefined"}
 
     sagemaker_session = sagemaker.Session(
-        boto_session=boto3.Session(
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        ),
-        sagemaker_client=boto3.client(
-            "sagemaker",
-            endpoint_url="http://localhost.localstack.cloud:4566",
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        ),
-        sagemaker_featurestore_runtime_client=boto3.client(
-            "sagemaker-featurestore-runtime",
-            endpoint_url="http://localhost.localstack.cloud:4566",
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        ),
-        sagemaker_metrics_client=boto3.client(
-            "sagemaker-metrics",
-            endpoint_url="http://localhost.localstack.cloud:4566",
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        ),
         default_bucket="srl-dev-idps-drewm-sagemaker-1",
     )
 
@@ -114,7 +80,6 @@ deploy_model_task = PythonOperator(
 wait_for_endpoint_task = SageMakerEndpointSensor(
     task_id="wait_for_endpoint",
     endpoint_name="{{ task_instance.xcom_pull(task_ids='deploy_huggingface_model') }}",
-    aws_conn_id=AWS_CONN_ID,
     dag=dag,
 )
 
