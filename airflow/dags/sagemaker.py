@@ -28,13 +28,15 @@ dag = DAG(
     tags=["sagemaker", "sklearn"],
 )
 
+# Define the region
+region_name = "us-east-1"
+
 # Define SageMaker model
 model_name = "sklearn-model"
 s3_model_path = (
     "s3://srl-dev-idps-drewm-mlflow-artifacts-1/1/55dc066efd4447b28baca4d60494b625/artifacts/sklearn-model/"
 )
 image_uri = "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3"
-region_name = "us-east-1"
 
 sagemaker_model = {
     "ModelName": model_name,
@@ -43,13 +45,13 @@ sagemaker_model = {
         "ModelDataUrl": s3_model_path,
     },
     "ExecutionRoleArn": "arn:aws:iam::your-account-id:role/service-role/AmazonSageMaker-ExecutionRole-20200101T000001",
-    "Region": region_name,
 }
 
 create_model_task = SageMakerModelOperator(
     task_id="create_sagemaker_model",
     config=sagemaker_model,
     aws_conn_id="aws_default",
+    region_name=region_name,  # Explicitly set the region
     dag=dag,
 )
 
@@ -72,6 +74,7 @@ create_endpoint_config_task = SageMakerEndpointConfigOperator(
     task_id="create_sagemaker_endpoint_config",
     config=sagemaker_endpoint_config,
     aws_conn_id="aws_default",
+    region_name=region_name,  # Explicitly set the region
     dag=dag,
 )
 
@@ -86,6 +89,7 @@ create_endpoint_task = SageMakerEndpointOperator(
     task_id="create_sagemaker_endpoint",
     config=sagemaker_endpoint,
     aws_conn_id="aws_default",
+    region_name=region_name,  # Explicitly set the region
     wait_for_completion=False,  # We'll use a sensor to wait
     dag=dag,
 )
@@ -95,6 +99,7 @@ wait_for_endpoint_task = SageMakerEndpointSensor(
     task_id="wait_for_endpoint",
     endpoint_name=endpoint_name,
     aws_conn_id="aws_default",
+    region_name=region_name,  # Explicitly set the region
     dag=dag,
 )
 
