@@ -10,6 +10,8 @@ from airflow.utils.dates import days_ago
 
 from airflow import DAG
 
+AWS_CONN_ID = "aws"
+
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
@@ -48,9 +50,7 @@ sagemaker_model = {
 }
 
 create_model_task = SageMakerModelOperator(
-    task_id="create_sagemaker_model",
-    config=sagemaker_model,
-    dag=dag,
+    task_id="create_sagemaker_model", config=sagemaker_model, dag=dag, aws_conn_id=AWS_CONN_ID
 )
 
 # Define SageMaker endpoint configuration
@@ -72,6 +72,7 @@ create_endpoint_config_task = SageMakerEndpointConfigOperator(
     task_id="create_sagemaker_endpoint_config",
     config=sagemaker_endpoint_config,
     dag=dag,
+    aws_conn_id=AWS_CONN_ID,
 )
 
 # Create SageMaker endpoint
@@ -86,6 +87,7 @@ create_endpoint_task = SageMakerEndpointOperator(
     config=sagemaker_endpoint,
     wait_for_completion=False,  # We'll use a sensor to wait
     dag=dag,
+    aws_conn_id=AWS_CONN_ID,
 )
 
 # Wait for endpoint to be in service
