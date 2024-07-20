@@ -34,6 +34,7 @@ s3_model_path = (
     "s3://srl-dev-idps-drewm-mlflow-artifacts-1/1/55dc066efd4447b28baca4d60494b625/artifacts/sklearn-model/"
 )
 image_uri = "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3"
+region_name = "us-east-1"
 
 sagemaker_model = {
     "ModelName": model_name,
@@ -42,6 +43,7 @@ sagemaker_model = {
         "ModelDataUrl": s3_model_path,
     },
     "ExecutionRoleArn": "arn:aws:iam::your-account-id:role/service-role/AmazonSageMaker-ExecutionRole-20200101T000001",
+    "Region": region_name,
 }
 
 create_model_task = SageMakerModelOperator(
