@@ -1,7 +1,7 @@
 from datetime import timedelta
 
-import boto3
-import sagemaker
+# import boto3
+# import sagemaker
 from airflow.operators.python import PythonOperator
 
 # from airflow.providers.amazon.aws.operators.sagemaker import SageMakerModelOperator
@@ -33,24 +33,24 @@ dag = DAG(
 
 
 # Function to get the execution role
-def get_execution_role():
-    try:
-        role = sagemaker.get_execution_role()
-    except ValueError:
-        iam = boto3.client(
-            "iam",
-            endpoint_url="http://localhost.localstack.cloud:4566",
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        )
-        role = iam.get_role(RoleName="sagemaker_execution_role")["Role"]["Arn"]
-    return role
+# def get_execution_role():
+#     try:
+#         role = sagemaker.get_execution_role()
+#     except ValueError:
+#         iam = boto3.client(
+#             "iam",
+#             endpoint_url="http://localhost.localstack.cloud:4566",
+#             region_name="us-east-1",
+#             aws_access_key_id="mock_access_key",
+#             aws_secret_access_key="mock_secret_key",
+#         )
+#         role = iam.get_role(RoleName="sagemaker_execution_role")["Role"]["Arn"]
+#     return role
 
 
 # Function to deploy the Hugging Face model
 def deploy_huggingface_model():
-    role = get_execution_role()
+    # role = get_execution_role()
 
     # Hub Model configuration. https://huggingface.co/models
     hub = {"HF_MODEL_ID": "drewmee/sklearn-model", "HF_TASK": "undefined"}
@@ -61,7 +61,7 @@ def deploy_huggingface_model():
         pytorch_version="2.1.0",
         py_version="py310",
         env=hub,
-        role=role,
+        # role=role,
     )
 
     # Deploy model to SageMaker Inference
