@@ -37,7 +37,9 @@ def get_execution_role():
     try:
         role = sagemaker.get_execution_role()
     except ValueError:
-        iam = boto3.client("iam", endpoint_url="http://localhost.localstack.cloud:4566")
+        iam = boto3.client(
+            "iam", endpoint_url="http://localhost.localstack.cloud:4566", region_name="us-east-1"
+        )
         role = iam.get_role(RoleName="sagemaker_execution_role")["Role"]["Arn"]
     return role
 
