@@ -203,11 +203,10 @@ def deploy_huggingface_model():
         model_data="s3://srl-dev-idps-drewm-sagemaker-1/model.tar.gz",  # path to your trained SageMaker model
         sagemaker_session=sagemaker_session,
         role=role,  # IAM role with permissions to create an endpoint
-        transformers_version="4.26",  # Transformers version used
-        pytorch_version="1.13",  # PyTorch version used
-        py_version="py39",  # Python version used
+        transformers_version="4.37.0",
+        pytorch_version="2.1.0",
+        py_version="py310",
     )
-
     logger.info("e")
     # Deploy model to SageMaker Inference
     predictor = huggingface_model.deploy(
