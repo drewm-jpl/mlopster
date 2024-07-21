@@ -78,6 +78,13 @@ def deploy_huggingface_model():
             aws_access_key_id="mock_access_key",
             aws_secret_access_key="mock_secret_key",
         ),
+        s3_client=boto3.client(
+            "s3",
+            endpoint_url="http://localhost.localstack.cloud:4566",
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
+        ),
     )
     logger.info("d")
     # Create Hugging Face Model Class
