@@ -125,8 +125,36 @@ def deploy_huggingface_model():
     logger.info("c")
     endpoint_url = "http://localhost.localstack.cloud:4566"
     sagemaker_session = CustomSageMakerSession(
-        endpoint_url=endpoint_url, default_bucket="srl-dev-idps-drewm-sagemaker-1"
+        endpoint_url=endpoint_url,
+        default_bucket="srl-dev-idps-drewm-sagemaker-1",
+        boto_session=boto3.Session(
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
+        ),
+        sagemaker_client=boto3.client(
+            "sagemaker",
+            endpoint_url="http://localhost.localstack.cloud:4566",
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
+        ),
+        sagemaker_featurestore_runtime_client=boto3.client(
+            "sagemaker-featurestore-runtime",
+            endpoint_url="http://localhost.localstack.cloud:4566",
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
+        ),
+        sagemaker_metrics_client=boto3.client(
+            "sagemaker-metrics",
+            endpoint_url="http://localhost.localstack.cloud:4566",
+            region_name="us-east-1",
+            aws_access_key_id="mock_access_key",
+            aws_secret_access_key="mock_secret_key",
+        ),
     )
+
     # sagemaker_session = sagemaker.Session(
     #     default_bucket="srl-dev-idps-drewm-sagemaker-1",
     #     boto_session=boto3.Session(
