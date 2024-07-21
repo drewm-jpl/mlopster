@@ -164,44 +164,37 @@ def deploy_huggingface_model():
     #         aws_secret_access_key="mock_secret_key",
     #     ),
     # )
-
-    # sagemaker_session = sagemaker.Session(
-    #     default_bucket="srl-dev-idps-drewm-sagemaker-1",
-    #     boto_session=boto3.Session(
-    #         region_name="us-east-1",
-    #         aws_access_key_id="mock_access_key",
-    #         aws_secret_access_key="mock_secret_key",
-    #     ),
-    #     sagemaker_client=boto3.client(
-    #         "sagemaker",
-    #         endpoint_url="http://localhost.localstack.cloud:4566",
-    #         region_name="us-east-1",
-    #         aws_access_key_id="mock_access_key",
-    #         aws_secret_access_key="mock_secret_key",
-    #     ),
-    #     sagemaker_featurestore_runtime_client=boto3.client(
-    #         "sagemaker-featurestore-runtime",
-    #         endpoint_url="http://localhost.localstack.cloud:4566",
-    #         region_name="us-east-1",
-    #         aws_access_key_id="mock_access_key",
-    #         aws_secret_access_key="mock_secret_key",
-    #     ),
-    #     sagemaker_metrics_client=boto3.client(
-    #         "sagemaker-metrics",
-    #         endpoint_url="http://localhost.localstack.cloud:4566",
-    #         region_name="us-east-1",
-    #         aws_access_key_id="mock_access_key",
-    #         aws_secret_access_key="mock_secret_key",
-    #     ),
-    #     s3_client=boto3.client(
-    #         "s3",
-    #         endpoint_url="http://localhost.localstack.cloud:4566",
-    #         region_name="us-east-1",
-    #         aws_access_key_id="mock_access_key",
-    #         aws_secret_access_key="mock_secret_key",
-    #     ),
-    # )
-    # logger.info("d")
+    boto_session = boto3.Session(
+        region_name="us-east-1",
+        aws_access_key_id="mock_access_key",
+        aws_secret_access_key="mock_secret_key",
+    )
+    sagemaker_session = sagemaker.Session(
+        default_bucket="srl-dev-idps-drewm-sagemaker-1",
+        boto_session=boto_session,
+        sagemaker_client=boto_session.client(
+            "sagemaker", endpoint_url="http://localhost.localstack.cloud:4566"
+        ),
+        sagemaker_featurestore_runtime_client=boto_session.client(
+            "sagemaker-featurestore-runtime", endpoint_url="http://localhost.localstack.cloud:4566"
+        ),
+        sagemaker_metrics_client=boto_session.client(
+            "sagemaker-metrics", endpoint_url="http://localhost.localstack.cloud:4566"
+        ),
+        s3_client=boto_session.client("s3", endpoint_url="http://localhost.localstack.cloud:4566"),
+        s3_resource=boto_session.resource("s3", endpoint_url="http://localhost.localstack.cloud:4566"),
+        resource_groups_client=boto_session.client(
+            "resource-groups", endpoint_url="http://localhost.localstack.cloud:4566"
+        ),
+        resource_group_tagging_client=boto_session.client(
+            "resourcegroupstaggingapi", endpoint_url="http://localhost.localstack.cloud:4566"
+        ),
+        iam_client=boto_session.client("iam", endpoint_url="http://localhost.localstack.cloud:4566"),
+        sts_client=boto_session.client("sts", endpoint_url="http://localhost.localstack.cloud:4566"),
+        cloudwatch_client=boto_session.client("logs", endpoint_url="http://localhost.localstack.cloud:4566"),
+        athena_client=boto_session.client("athena", endpoint_url="http://localhost.localstack.cloud:4566"),
+    )
+    logger.info("d")
     # Create Hugging Face Model Class
     huggingface_model = HuggingFaceModel(
         transformers_version="4.37.0",
