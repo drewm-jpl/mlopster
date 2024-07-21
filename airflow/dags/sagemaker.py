@@ -1,6 +1,7 @@
 import logging
 
 import boto3
+import botocore.config
 import sagemaker
 from airflow.operators.python import PythonOperator
 
@@ -12,6 +13,78 @@ from sagemaker.huggingface import HuggingFaceModel
 from airflow import DAG
 
 logger = logging.getLogger(__name__)
+
+
+class CustomSageMakerSession(sagemaker.Session):
+    def __init__(self, endpoint_url=None, region_name="us-east-1", **kwargs):
+        self.endpoint_url = endpoint_url
+        self.region_name = region_name
+        super().__init__(**kwargs)
+
+    def _initialize(
+        self,
+        boto_session,
+        sagemaker_client,
+        sagemaker_runtime_client,
+        sagemaker_featurestore_runtime_client,
+        sagemaker_metrics_client,
+        sagemaker_config: dict = None,
+    ):
+        self.boto_session = (
+            boto_session
+            or boto3.DEFAULT_SESSION
+            or boto3.Session(
+                aws_access_key_id="mock_access_key",
+                aws_secret_access_key="mock_secret_key",
+                region_name=self.region_name,
+            )
+        )
+
+        self._region_name = self.boto_session.region_name
+        if self._region_name is None:
+            raise ValueError("Must setup local AWS configuration with a region supported by SageMaker.")
+
+        botocore_config = botocore.config.Config(user_agent_extra="CustomSageMakerSession")
+
+        self.sagemaker_client = sagemaker_client or self.boto_session.client(
+            "sagemaker", config=botocore_config, endpoint_url=self.endpoint_url
+        )
+
+        self.sagemaker_runtime_client = sagemaker_runtime_client or self.boto_session.client(
+            "runtime.sagemaker", config=botocore_config, endpoint_url=self.endpoint_url
+        )
+
+        self.sagemaker_featurestore_runtime_client = (
+            sagemaker_featurestore_runtime_client
+            or self.boto_session.client(
+                "sagemaker-featurestore-runtime", config=botocore_config, endpoint_url=self.endpoint_url
+            )
+        )
+
+        self.sagemaker_metrics_client = sagemaker_metrics_client or self.boto_session.client(
+            "sagemaker-metrics", config=botocore_config, endpoint_url=self.endpoint_url
+        )
+
+        self.s3_client = self.boto_session.client(
+            "s3", region_name=self._region_name, endpoint_url=self.endpoint_url
+        )
+        self.s3_resource = self.boto_session.resource(
+            "s3", region_name=self._region_name, endpoint_url=self.endpoint_url
+        )
+
+        self.lambda_client = self.boto_session.client(
+            "lambda", region_name=self._region_name, endpoint_url=self.endpoint_url
+        )
+
+        self.local_mode = False
+
+        if sagemaker_config:
+            self.sagemaker_config = sagemaker_config
+        else:
+            self.sagemaker_config = {}
+
+        self._default_bucket_name_override = self.sagemaker_config.get("default_bucket", None)
+        self.default_bucket_prefix = self.sagemaker_config.get("default_bucket_prefix", None)
 
 
 default_args = {"owner": "airflow"}
@@ -50,43 +123,47 @@ def deploy_huggingface_model():
     # Hub Model configuration. https://huggingface.co/models
     hub = {"HF_MODEL_ID": "drewmee/sklearn-model", "HF_TASK": "undefined"}
     logger.info("c")
-    sagemaker_session = sagemaker.Session(
-        default_bucket="srl-dev-idps-drewm-sagemaker-1",
-        boto_session=boto3.Session(
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        ),
-        sagemaker_client=boto3.client(
-            "sagemaker",
-            endpoint_url="http://localhost.localstack.cloud:4566",
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        ),
-        sagemaker_featurestore_runtime_client=boto3.client(
-            "sagemaker-featurestore-runtime",
-            endpoint_url="http://localhost.localstack.cloud:4566",
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        ),
-        sagemaker_metrics_client=boto3.client(
-            "sagemaker-metrics",
-            endpoint_url="http://localhost.localstack.cloud:4566",
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        ),
-        s3_client=boto3.client(
-            "s3",
-            endpoint_url="http://localhost.localstack.cloud:4566",
-            region_name="us-east-1",
-            aws_access_key_id="mock_access_key",
-            aws_secret_access_key="mock_secret_key",
-        ),
+    endpoint_url = "http://localhost.localstack.cloud:4566"
+    sagemaker_session = CustomSageMakerSession(
+        endpoint_url=endpoint_url, default_bucket="srl-dev-idps-drewm-sagemaker-1"
     )
-    logger.info("d")
+    # sagemaker_session = sagemaker.Session(
+    #     default_bucket="srl-dev-idps-drewm-sagemaker-1",
+    #     boto_session=boto3.Session(
+    #         region_name="us-east-1",
+    #         aws_access_key_id="mock_access_key",
+    #         aws_secret_access_key="mock_secret_key",
+    #     ),
+    #     sagemaker_client=boto3.client(
+    #         "sagemaker",
+    #         endpoint_url="http://localhost.localstack.cloud:4566",
+    #         region_name="us-east-1",
+    #         aws_access_key_id="mock_access_key",
+    #         aws_secret_access_key="mock_secret_key",
+    #     ),
+    #     sagemaker_featurestore_runtime_client=boto3.client(
+    #         "sagemaker-featurestore-runtime",
+    #         endpoint_url="http://localhost.localstack.cloud:4566",
+    #         region_name="us-east-1",
+    #         aws_access_key_id="mock_access_key",
+    #         aws_secret_access_key="mock_secret_key",
+    #     ),
+    #     sagemaker_metrics_client=boto3.client(
+    #         "sagemaker-metrics",
+    #         endpoint_url="http://localhost.localstack.cloud:4566",
+    #         region_name="us-east-1",
+    #         aws_access_key_id="mock_access_key",
+    #         aws_secret_access_key="mock_secret_key",
+    #     ),
+    #     s3_client=boto3.client(
+    #         "s3",
+    #         endpoint_url="http://localhost.localstack.cloud:4566",
+    #         region_name="us-east-1",
+    #         aws_access_key_id="mock_access_key",
+    #         aws_secret_access_key="mock_secret_key",
+    #     ),
+    # )
+    # logger.info("d")
     # Create Hugging Face Model Class
     huggingface_model = HuggingFaceModel(
         transformers_version="4.37.0",
