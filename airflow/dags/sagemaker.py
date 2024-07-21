@@ -125,7 +125,7 @@ def deploy_huggingface_model():
     logger.info("c")
     endpoint_url = "http://localhost.localstack.cloud:4566"
 
-    sagemaker_session = sagemaker.local_sesion.LocalSession(
+    sagemaker_session = sagemaker.local.LocalSession(
         boto_session=boto3.Session(
             region_name="us-east-1",
             aws_access_key_id="mock_access_key",
