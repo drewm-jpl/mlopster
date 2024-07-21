@@ -131,7 +131,7 @@ def deploy_huggingface_model():
             aws_access_key_id="mock_access_key",
             aws_secret_access_key="mock_secret_key",
         ),
-        default_bucket=None,
+        default_bucket="srl-dev-idps-drewm-sagemaker-1",
         s3_endpoint_url=endpoint_url,
     )
     # sagemaker_session = CustomSageMakerSession(
