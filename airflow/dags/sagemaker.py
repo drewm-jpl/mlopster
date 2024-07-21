@@ -122,7 +122,7 @@ def deploy_huggingface_model():
     role = get_execution_role()
     logger.info("b")
     # Hub Model configuration. https://huggingface.co/models
-    hub = {"HF_MODEL_ID": "drewmee/sklearn-model", "HF_TASK": "undefined"}
+    # hub = {"HF_MODEL_ID": "drewmee/sklearn-model", "HF_TASK": "undefined"}
     logger.info("c")
     endpoint_url = "http://localhost.localstack.cloud:4566"
 
@@ -191,14 +191,23 @@ def deploy_huggingface_model():
     )
     logger.info("d")
     # Create Hugging Face Model Class
+    # huggingface_model = HuggingFaceModel(
+    #     transformers_version="4.37.0",
+    #     pytorch_version="2.1.0",
+    #     py_version="py310",
+    #     env=hub,
+    #     sagemaker_session=sagemaker_session,
+    #     role=role,
+    # )
     huggingface_model = HuggingFaceModel(
-        transformers_version="4.37.0",
-        pytorch_version="2.1.0",
-        py_version="py310",
-        env=hub,
+        model_data="s3://srl-dev-idps-drewm-sagemaker-1/model.tar.gz",  # path to your trained SageMaker model
         sagemaker_session=sagemaker_session,
-        role=role,
+        role=role,  # IAM role with permissions to create an endpoint
+        transformers_version="4.26",  # Transformers version used
+        pytorch_version="1.13",  # PyTorch version used
+        py_version="py39",  # Python version used
     )
+
     logger.info("e")
     # Deploy model to SageMaker Inference
     predictor = huggingface_model.deploy(
